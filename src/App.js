@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import themeContext from './context/theme';
 function App() {
   const [todoList, setTodoList] = useState([]);
   function addTodo(content) {
@@ -46,14 +47,28 @@ function App() {
     }) : todo
     ))
   }
+  const [theme, setTheme] = useState('primary');
+
+  function handleChange(e) {
+    setTheme(e.target.value);
+  }
+
   return (
-    <div className="d-flex justify-content-center align-items-center p-20">
-      <div className="card container p-20">
-        <h1 className="mb-20">Liste de tâches</h1>
-        <AddTodo addTodo={ addTodo }/>
-        <TodoList editTodo={editTodo} todoList={ todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit} selectTodo={selectTodo}/>
+    <themeContext.Provider value={theme}>
+      <div className="d-flex justify-content-center align-items-center p-20">
+        <div className="card container p-20">
+          <h1 className="mb-20 d-flex flex-row justify-content-center align-items-center">
+            <span className='flex-fill'>Liste de tâches</span>
+            <select value={theme} onChange={handleChange}>
+              <option value="primary">Thème Bleu</option>
+              <option value="secondary">Thème violet</option>
+            </select>
+          </h1>
+          <AddTodo addTodo={ addTodo }/>
+          <TodoList editTodo={editTodo} todoList={ todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit} selectTodo={selectTodo}/>
+        </div>
       </div>
-    </div>
+    </themeContext.Provider>
   );
 }
 

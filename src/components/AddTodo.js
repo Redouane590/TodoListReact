@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from './Button';
 
 function AddTodo({addTodo}) {
   const [value, setValue] = useState('')
@@ -24,7 +25,8 @@ function AddTodo({addTodo}) {
     <div className='d-flex justify-content-center align-item-center mb-20'>
 
       <input onKeyDown={ handleKeyDown} onChange={ handleChange} value={ value } className='flex-fill mr-15' type="text" placeholder='Ecrivez la tache' />
-      <button onClick={ handleClick } className='btn btn-primary' >Ajouter la tache</button>
+
+      <Button text="Ajouter la tache" onClick={ handleClick }/>
     </div>
   )
 }

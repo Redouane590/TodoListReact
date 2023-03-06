@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import Button from './Button';
 
 function EditTodo({todo, editTodo, cancelEditTodo}) {
 
@@ -27,8 +28,9 @@ function EditTodo({todo, editTodo, cancelEditTodo}) {
     <div className='d-flex justify-content-center align-item-center mb-20'>
 
       <input onKeyDown={ handleKeyDown} onChange={ handleChange} value={ value } className='flex-fill mr-15' type="text" placeholder='Ecrivez la tache' />
-      <button onClick={ handleClick } className='btn btn-primary' >Modifier</button>
-      <button onClick={ cancelEditTodo } className='btn btn-primary' >Annuler la modif</button>
+
+      <Button text="Sauvegarder" onClick={ handleClick } className="mr-15"/>
+      <Button text="Annuler la modif" onClick={ cancelEditTodo } />
     </div>
   )
 }

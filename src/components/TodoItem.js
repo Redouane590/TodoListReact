@@ -1,21 +1,22 @@
 import React from 'react';
+import Button from './Button';
 
 
 function TodoItem({todo, deleteTodo, toggleTodo, toggleTodoEdit, selectTodo}) {
   return (
     <li onClick={selectTodo} className={` mb-10 d-flex flex-row p-10 justify-content-center align-item-center ${todo.selected ? 'selected' : ''}`}>
       <span className='flex-fill mr-15'>{todo.content} {todo.done && '✅'}</span>
-      <button onClick={e => {
+      <Button className='mr-15' text="Valider" onClick={e => {
         e.stopPropagation();
         toggleTodo()
-      }} className='btn btn-primary mr-15'>Valider</button>
-      <button onClick={ e => {
+      }} />
+      <Button className='mr-15' text="Modifier" onClick={ e => {
         e.stopPropagation();
-        toggleTodoEdit()} }
-        className='btn btn-primary mr-15'>Modifier</button>
-      <button onClick={(e) => {
+        toggleTodoEdit()} }/>
+      <Button text="Supprimer" onClick={(e) => {
         e.stopPropagation();
-        deleteTodo(todo.id)}} className='btn btn-reverse-primary mr-15'>supprimer</button>
+        deleteTodo(todo.id)}} />
+
     </li>
   )
 }
