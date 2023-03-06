@@ -8,9 +8,17 @@ function App() {
       id: crypto.randomUUID(),
       content,
       done: false,
-      edit: false
+      edit: false,
+      selected: false
     }
     setTodoList([...todoList, todo])
+  }
+  function selectTodo(id) {
+    setTodoList(todoList.map(todo => todo.id === id ? ({
+      ...todo,
+      selected: true
+    }): {...todo,
+    selected: false}))
   }
 
   function deleteTodo(id) {
@@ -23,6 +31,7 @@ function App() {
       done: !todo.done
     }) : todo))
   }
+
   function toggleTodoEdit(id) {
     setTodoList(todoList.map(todo => todo.id === id ? ({
       ...todo,
@@ -42,7 +51,7 @@ function App() {
       <div className="card container p-20">
         <h1 className="mb-20">Liste de tâches</h1>
         <AddTodo addTodo={ addTodo }/>
-        <TodoList editTodo={editTodo} todoList={ todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit}/>
+        <TodoList editTodo={editTodo} todoList={ todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit} selectTodo={selectTodo}/>
       </div>
     </div>
   );
