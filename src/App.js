@@ -1,71 +1,74 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 import themeContext from './context/theme';
+import todoReducer from './reducers/todoReducer';
 function App() {
-  const [todoList, setTodoList] = useState([]);
+  const [state, dispatch] = useReducer(todoReducer, {
+    theme: 'primary',
+    todoList: []
+  });
   function addTodo(content) {
-    const todo = {
-      id: crypto.randomUUID(),
-      content,
-      done: false,
-      edit: false,
-      selected: false
-    }
-    setTodoList([...todoList, todo])
+    dispatch({
+      type: 'ADD_TODO',
+      content
+    })
   }
   function selectTodo(id) {
-    setTodoList(todoList.map(todo => todo.id === id ? ({
-      ...todo,
-      selected: true
-    }): {...todo,
-    selected: false}))
+    dispatch({
+      type: 'SELECT_TODO',
+      id
+    })
   }
 
   function deleteTodo(id) {
-    setTodoList(todoList.filter(todo => todo.id !== id))
+    dispatch({
+      type: 'DELETE_TODO',
+      id
+    })
   }
 
   function toggleTodo(id) {
-    setTodoList(todoList.map(todo => todo.id === id ? ({
-      ...todo,
-      done: !todo.done
-    }) : todo))
+    dispatch({
+      type: 'TOGGLE_TODO',
+      id
+    })
   }
 
   function toggleTodoEdit(id) {
-    setTodoList(todoList.map(todo => todo.id === id ? ({
-      ...todo,
-      edit: !todo.edit
-    }) : todo))
+    dispatch({
+      type: 'TOGGLE_TODO_EDIT',
+      id
+    })
   }
   function editTodo(id, content) {
-    setTodoList(todoList.map(todo => todo.id === id ? ({
-      ...todo,
-      edit: false,
+    dispatch({
+      type: 'EDIT_TODO',
+      id,
       content
-    }) : todo
-    ))
+    })
   }
-  const [theme, setTheme] = useState('primary');
 
   function handleChange(e) {
-    setTheme(e.target.value);
+    dispatch({
+      type: 'SET_THEME',
+      theme: e.target.value
+    })
   }
 
   return (
-    <themeContext.Provider value={theme}>
+    <themeContext.Provider value={state.theme}>
       <div className="d-flex justify-content-center align-items-center p-20">
         <div className="card container p-20">
           <h1 className="mb-20 d-flex flex-row justify-content-center align-items-center">
             <span className='flex-fill'>Liste de tâches</span>
-            <select value={theme} onChange={handleChange}>
+            <select value={state.theme} onChange={handleChange}>
               <option value="primary">Thème Bleu</option>
               <option value="secondary">Thème violet</option>
             </select>
           </h1>
           <AddTodo addTodo={ addTodo }/>
-          <TodoList editTodo={editTodo} todoList={ todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit} selectTodo={selectTodo}/>
+          <TodoList editTodo={editTodo} todoList={ state.todoList } deleteTodo={ deleteTodo } toggleTodo={toggleTodo} toggleTodoEdit={toggleTodoEdit} selectTodo={selectTodo}/>
         </div>
       </div>
     </themeContext.Provider>
